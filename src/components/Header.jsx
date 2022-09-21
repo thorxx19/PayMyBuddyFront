@@ -7,7 +7,7 @@ import Home from './Home'
 export default function Header() {
   return (
     <Router>
-      <div>
+      <div className="container-xl">
         <nav className=" navbar navbar-dark bg-dark">
             <form className="container-fluid justify-content-start head">
               <Link to="/" type="button" className="btn btn-outline-success me-2">Home</Link>
@@ -21,7 +21,7 @@ export default function Header() {
 
           <Route exact path="/" element={<Home/>}/>
           <Route path="/transfert" element={<Transfert/>}/>
-          
+
         </Routes>
 
       </div>
