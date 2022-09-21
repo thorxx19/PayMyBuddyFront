@@ -5,20 +5,39 @@ import Connection from "../service/Connection";
 class Transfert extends React.Component{
     constructor(props){
         super(props)
-        this.state = {transfert: [], connect : [], value : 'default'} 
-        this.handleChange = this.handleChange.bind(this); 
+        this.state = {transfert: [], connect : [], value : 0, valueCount : 0, id : 0} 
+        this.handleChange = this.handleChange.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this); 
+        this.handleChangeCount = this.handleChangeCount.bind(this);
         
+     
     }
     handleChange(event) {
         this.setState({value: event.target.value});
       }
+    handleChangeCount(event){
+        this.setState({valueCount: event.target.value})
+    }
+    
+    handleSubmit(event) {
+        if (this.state.value !== 0 && this.state.valueCount !== 0) {
+            Connection.postTransfert(this.state.id,this.state.value,this.state.valueCount).then((respons)=>{
+                respons === "no save" ? console.log("no save") : window.location.reload(false)
+            })
+        }
+        event.preventDefault();
+    }
 
     componentDidMount(){
+
+
+
         Connection.getAllTransfer().then((respons)=>{
             respons === 0 ? this.setState({transfert: []}) : this.setState({transfert: respons})
         })
         Connection.getConnectById().then((responsConnect)=>{
             responsConnect === 0 ? this.setState({connect: []}) : this.setState({connect : responsConnect.data})
+            responsConnect === 0 ? this.setState({id: 0}) : this.setState({id : responsConnect.data[0].idUn.id})
         })
     }
 
@@ -33,16 +52,18 @@ class Transfert extends React.Component{
                 </div>
                 
                 <div>
+                    <form onSubmit={this.handleSubmit}>
                     <select value={this.state.value} onChange={this.handleChange}>
-                        <option value='default'>Select A Connection</option>
+                        <option value={0}>Select A Connection</option>
                         {this.state.connect.map((con)=>
-                           <option key={`${con.id}`} value={con.idDeux.name}>{con.idDeux.name}</option>
+                           <option key={con.idDeux.id} value={con.idDeux.id}>{con.idDeux.name}</option>
                         )}
                     </select>
                         
                     
-                    <input type="number" name="" id="" className="mx-2" placeholder=""/>
-                    <button type="button" className="btn btn-success">Pay</button>
+                    <input type="number" min={0} max={100} step={1} value={this.state.valueCount} onChange={this.handleChangeCount} className="mx-2"/>
+                    <input type="submit" value="Pay" className="btn btn-success"/>
+                    </form>
                 </div>
                 <table className="table table-striped my-5 table-borderless">
                 <thead>

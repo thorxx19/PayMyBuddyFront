@@ -3,7 +3,7 @@ import axios from "axios";
 
 class Connect {
     getAllTransfer = async()=>{
-        let number = 1
+        let number = 7
         let respons = null;
         try {
             respons = await axios.get("http://localhost:9001/transfert",{
@@ -16,7 +16,7 @@ class Connect {
         }
     } 
     getConnectById = async()=>{
-        let number = 1
+        let number = 7
         let respons = null
         try {
             respons = await axios.get("http://localhost:9001/connectId",{
@@ -26,6 +26,19 @@ class Connect {
             return respons;
         } catch (error) {
             return 0
+        }
+    }
+    postTransfert = async(idDeb, idCred, bal)=>{
+        let respons = null
+        try {
+            respons = await axios.post("http://localhost:9001/transfert",{
+            idDebtor: idDeb,
+            idCredit: idCred,
+            balance: bal
+            })
+            return respons
+        } catch (error) {
+            return "no save"
         }
     }
    
