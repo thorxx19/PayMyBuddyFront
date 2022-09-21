@@ -22,7 +22,7 @@ class Connect {
             respons = await axios.get("http://localhost:9001/connectId",{
                 params:{idUn: number}
             })
-            console.log(respons.data[0].id)
+            console.log(respons.data)
             return respons;
         } catch (error) {
             return 0

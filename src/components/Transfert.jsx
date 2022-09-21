@@ -5,16 +5,20 @@ import Connection from "../service/Connection";
 class Transfert extends React.Component{
     constructor(props){
         super(props)
-        this.state = {transfert: [], connect : []}  
+        this.state = {transfert: [], connect : [], value : 'default'} 
+        this.handleChange = this.handleChange.bind(this); 
         
     }
-    
+    handleChange(event) {
+        this.setState({value: event.target.value});
+      }
+
     componentDidMount(){
         Connection.getAllTransfer().then((respons)=>{
             respons === 0 ? this.setState({transfert: []}) : this.setState({transfert: respons})
         })
         Connection.getConnectById().then((responsConnect)=>{
-            responsConnect === 0 ? this.setState({connect: []}) : this.setState({connect : responsConnect})
+            responsConnect === 0 ? this.setState({connect: []}) : this.setState({connect : responsConnect.data})
         })
     }
 
@@ -29,11 +33,11 @@ class Transfert extends React.Component{
                 </div>
                 
                 <div>
-                    <select className="">
-                        {this.state.connect.map(con =>(
-                           <option key={`${con.id}`}>{con.id}</option>
-
-                        ))}
+                    <select value={this.state.value} onChange={this.handleChange}>
+                        <option value='default'>Select A Connection</option>
+                        {this.state.connect.map((con)=>
+                           <option key={`${con.id}`} value={con.idDeux.name}>{con.idDeux.name}</option>
+                        )}
                     </select>
                         
                     
@@ -49,13 +53,13 @@ class Transfert extends React.Component{
                     </tr>
                 </thead>
                 <tbody>
-                    {this.state.transfert.map(trans =>(
+                    {this.state.transfert.map((trans)=>
                     <tr key={`${trans.id}`}>
                         <td>{`${trans.idCredit.name}`}</td>
                         <td>{`${trans.description}`}</td>
                         <td>{`${trans.amount}`}</td>
                     </tr>
-                    ))}
+                    )}
                     
                 </tbody>
             </table>
