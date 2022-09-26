@@ -11,3 +11,11 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+th{
+  background-color: rgb(92 185 92) !important;
+}
+.breadcrumb{
+  background-color: rgb(245 245 245) !important;
+  width: 100%;
+  padding: 12 !important;
+}
