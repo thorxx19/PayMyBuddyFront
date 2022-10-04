@@ -19,3 +19,9 @@ th{
   width: 100%;
   padding: 12 !important;
 }
+.styleNumberGood{
+  border: 1px solid green !important;
+}
+.styleNumberNoGood{
+  border: 1px solid red !important;
+}
