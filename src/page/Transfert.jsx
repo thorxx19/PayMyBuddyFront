@@ -98,7 +98,7 @@ function Transfert() {
     if (idCredit > 0 && solde > 0) {
       Connection.postTransfert(idDebtor, idCredit, solde, descript).then(
         (respons) => {
-          respons === "no save" ? handleCloseEchec() : handleValid();
+          respons === false ? handleCloseEchec() : handleValid();
         }
       );
     }

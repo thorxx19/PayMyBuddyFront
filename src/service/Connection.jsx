@@ -3,7 +3,7 @@ import axios from "axios";
 
 class Connect {
     getAllTransfer = async()=>{
-        let number = 2
+        let number = 8
         let respons = []
         try {
             respons = await axios.get("http://localhost:9001/transfert",{
@@ -29,7 +29,7 @@ class Connect {
         }
     }
     getConnectById = async()=>{
-        let number = 2
+        let number = 8
         let respons = []
         try {
             respons = await axios.get("http://localhost:9001/connectId",{
@@ -52,7 +52,7 @@ class Connect {
             })
             return respons
         } catch (error) {
-            return "no save"
+            return false
         }
     }
     getAllClients = async()=>{
