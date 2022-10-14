@@ -21,7 +21,7 @@ function OffCanvasExample({ name, ...props }) {
 
   useEffect(()=>{
     Connection.getAllClients().then((respons)=>{
-        respons === 0 ? console.log("no save") : setData(respons);
+        respons === 0 ? console.log("no save") : setData(respons.data);
     })
   }, [])
 

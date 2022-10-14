@@ -19,7 +19,7 @@ import ToasterBad from "../components/ToasterBad";
 
 
 function Transfert() {
-  const [connect, SetConnect] = useState([]);
+  const [connect, setConnect] = useState([]);
   const [idCredit, setIdCredit] = useState(0);
   const [idDebtor, setIdDebtor] = useState(0);
   const [solde, setSolde] = useState(0);
@@ -87,7 +87,7 @@ function Transfert() {
     }
     if (idCredit > 0 && solde > 0) {
       Connection.getClientById(idCredit).then((respons) => {
-        respons === 0 ? setName("") : setName(respons);
+        respons === 0 ? setName("") : setName(respons.data.name);
       });
       setShow3(true);
     }
@@ -107,7 +107,7 @@ function Transfert() {
 
   useEffect(() => {
     Connection.getConnectById().then((responsConnect) => {
-      responsConnect === 0 ? SetConnect([]) : SetConnect(responsConnect.data);
+      responsConnect === 0 ? setConnect([]) : setConnect(responsConnect.data);
       responsConnect === 0
         ? setIdDebtor(0)
         : setIdDebtor(responsConnect.data[0].idUn.id);
@@ -120,6 +120,8 @@ function Transfert() {
       <Breadcrumb>
         <Breadcrumb.Item href="/">Home</Breadcrumb.Item>
         <Breadcrumb.Item active>Transfert</Breadcrumb.Item>
+        <Breadcrumb.Item href='/profile'>Profile</Breadcrumb.Item>
+        <Breadcrumb.Item href="/contact">Contact</Breadcrumb.Item>
       </Breadcrumb>
       <Row className="my-3">
         <Col md={4}>
@@ -150,17 +152,7 @@ function Transfert() {
           </Col>
           <Col xs={4}>
             <InputGroup>
-              <Form.Control
-                type="number"
-                className={styleNumber}
-                min={0}
-                max={100}
-                step={1}
-                value={solde}
-                onChange={handleChangeCount}
-                required
-                size="lg"
-              ></Form.Control>
+              <Form.Control type="number" className={styleNumber} min={0} max={100} step={1} value={solde} onChange={handleChangeCount} required size="lg"></Form.Control>
             </InputGroup>
           </Col>
           <Col xs={4}>
@@ -174,29 +166,17 @@ function Transfert() {
           {/* MODAL */}
          
 
-          <Modal
-            show={show3}
-            onHide={handleClose}
-            backdrop="static"
-            keyboard={false}
-          >
+          <Modal show={show3} onHide={handleClose} backdrop="static" keyboard={false}>
             <Modal.Header>
               <Modal.Title>
-                Validation du Transfert entre {name} et vous d'un montant de{" "}
-                {solde} €
+                Validation du Transfert de votre compte au compte de {name} d'un montant de {solde} €
               </Modal.Title>
             </Modal.Header>
             <Modal.Body>
               Vous pouvez ajouter une description de votre transaction
-              (facultatif)
               <InputGroup>
                 <FloatingLabel controlId="floatingPassword" label="Descriptif">
-                  <Form.Control
-                    type="textarea"
-                    placeholder="Descriptif"
-                    value={descript}
-                    onChange={handleChangeDescript}
-                  ></Form.Control>
+                  <Form.Control type="textarea" placeholder="Descriptif" value={descript} onChange={handleChangeDescript}></Form.Control>
                 </FloatingLabel>
               </InputGroup>
             </Modal.Body>
@@ -209,9 +189,6 @@ function Transfert() {
               </Button>
             </Modal.Footer>
           </Modal>
-
-
-
         </Row>
       </Form>
       <Pagination />

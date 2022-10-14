@@ -10,8 +10,9 @@ class Connect {
                 params: {id: number}  
             });
             console.log(respons.data)
-            return respons.data;
+            return respons;
         } catch (error){
+            console.log(error)
             return 0
         }
     } 
@@ -23,7 +24,8 @@ class Connect {
                     id
                 }
             })
-            return respons.data.name
+            console.log(respons.data)
+            return respons
         } catch (error) {
             return 0
         }
@@ -60,11 +62,24 @@ class Connect {
         try {
             respons = await axios.get("http://localhost:9001/clients")
             console.log(respons.data)
-            return respons.data
+            return respons
         } catch (error) {
             return 0
         }
     }
-   
+    getFirstTrans = async()=>{
+        let number = 8
+        let respons = []
+        try {
+            respons = await axios.get("http://localhost:9001/trans",{
+                params: {id: number}  
+            });
+            console.log(respons.data)
+            return respons;
+        } catch (error){
+            console.log(error)
+            return 0
+        }
+    } 
 }
 export default new Connect();

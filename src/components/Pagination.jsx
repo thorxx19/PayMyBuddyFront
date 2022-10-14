@@ -11,7 +11,7 @@ import Connection from "../service/Connection";
 const DataTablePaginatorDemo = () => {
   const [customers1, setCustomers1] = useState([]);
   useEffect(() => {
-    Connection.getAllTransfer().then((data) => setCustomers1(data));
+    Connection.getAllTransfer().then((data) => setCustomers1(data.data));
   }, []);
 
   return (
