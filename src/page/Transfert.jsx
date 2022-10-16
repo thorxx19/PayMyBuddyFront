@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import Connection from "../service/Connection";
+import { connectService } from "../service/Connection";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
@@ -86,9 +86,9 @@ function Transfert() {
       setStyleSelect("styleNumberNoGood");
     }
     if (idCredit > 0 && solde > 0) {
-      Connection.getClientById(idCredit).then((respons) => {
+      connectService.clientById(idCredit).then((respons) => {
         respons === 0 ? setName("") : setName(respons.data.name);
-      });
+      }).catch(error => console.log(error));
       setShow3(true);
     }
     event.preventDefault();
@@ -96,29 +96,28 @@ function Transfert() {
 
   const handleSubmit = (event) => {
     if (idCredit > 0 && solde > 0) {
-      Connection.postTransfert(idDebtor, idCredit, solde, descript).then(
-        (respons) => {
+      connectService.postTransfert(idDebtor, idCredit, solde, descript).then(
+          respons => {
           respons === false ? handleCloseEchec() : handleValid();
-        }
-      );
+        }).catch(error => console.log(error));
     }
     event.preventDefault();
   };
 
   useEffect(() => {
-    Connection.getConnectById().then((responsConnect) => {
+    connectService.connectById().then(responsConnect => {
       responsConnect === 0 ? setConnect([]) : setConnect(responsConnect.data);
       responsConnect === 0
         ? setIdDebtor(0)
         : setIdDebtor(responsConnect.data[0].idUn.id);
-    });
+    }).catch(error => console.log(error));
   }, []);
 
   return (
     <Container fluid="md" className="justify-content-md-center">
       <Navigation />
       <Breadcrumb>
-        <Breadcrumb.Item href="/">Home</Breadcrumb.Item>
+        <Breadcrumb.Item href="/home">Home</Breadcrumb.Item>
         <Breadcrumb.Item active>Transfert</Breadcrumb.Item>
         <Breadcrumb.Item href='/profile'>Profile</Breadcrumb.Item>
         <Breadcrumb.Item href="/contact">Contact</Breadcrumb.Item>

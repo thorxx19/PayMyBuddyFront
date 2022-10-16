@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Button from 'react-bootstrap/Button';
 import Offcanvas from 'react-bootstrap/Offcanvas';
-import Connection from "../service/Connection";
+import { connectService } from "../service/Connection";
 import FloatingLabel from 'react-bootstrap/FloatingLabel';
 import Form from 'react-bootstrap/Form';
 
@@ -20,9 +20,9 @@ function OffCanvasExample({ name, ...props }) {
   })
 
   useEffect(()=>{
-    Connection.getAllClients().then((respons)=>{
+      connectService.getAllClients().then(respons => {
         respons === 0 ? console.log("no save") : setData(respons.data);
-    })
+    }).catch(error => console.log(error))
   }, [])
 
   return (

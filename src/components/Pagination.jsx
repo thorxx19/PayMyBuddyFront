@@ -6,12 +6,12 @@ import "../style/index.css";
 import React, { useState, useEffect } from "react";
 import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
-import Connection from "../service/Connection";
+import { connectService } from "../service/Connection";
 
 const DataTablePaginatorDemo = () => {
   const [customers1, setCustomers1] = useState([]);
   useEffect(() => {
-    Connection.getAllTransfer().then((data) => setCustomers1(data.data));
+    connectService.transfert().then(data => setCustomers1(data.data)).catch(error => console.log(error));
   }, []);
 
   return (

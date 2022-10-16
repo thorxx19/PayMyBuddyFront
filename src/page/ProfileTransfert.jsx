@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Col, Container, FloatingLabel, Form, Breadcrumb } from "react-bootstrap";
 import Navigation from '../components/Navigation';
-import Connection from "../service/Connection";
+import { connectService } from "../service/Connection";
 
 
 const Profile = () => {
@@ -10,10 +10,10 @@ const Profile = () => {
     const number = 8
 
     useEffect(() => {
-        Connection.getClientById(number).then((respons) => {
+        connectService.clientById(number).then(respons => {
           respons === 0 ? setDatas([]) : setDatas(respons.data)
           respons === 0 ? setCompte([]) : setCompte(respons.data.accountId)
-        });
+        }).catch(error => console.log(error));
       }, []);
 
 
@@ -21,7 +21,7 @@ const Profile = () => {
         <Container>
             <Navigation/>
             <Breadcrumb>
-                <Breadcrumb.Item href="/">Home</Breadcrumb.Item>
+                <Breadcrumb.Item href="/home">Home</Breadcrumb.Item>
                 <Breadcrumb.Item href="/transfert">Transfert</Breadcrumb.Item>
                 <Breadcrumb.Item active>Profile</Breadcrumb.Item>
                 <Breadcrumb.Item href='/contact'>Contact</Breadcrumb.Item>

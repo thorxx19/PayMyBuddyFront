@@ -1,16 +1,15 @@
 import React, { useEffect,useState } from 'react';
-import Connection from '../service/Connection';
+import { connectService } from '../service/Connection';
 import { Card } from 'react-bootstrap';
 
 function Brick() {
     const [dataIdDebtor, setDataIdDebtor] = useState([])
     const [data, setData] = useState([])
     useEffect(() => {
-      Connection.getFirstTrans().then((dataTransfert) => {
+        connectService.getFirstTrans().then((dataTransfert) => {
         setDataIdDebtor(dataTransfert.data.idDebtor)
         setData(dataTransfert.data.idDebtor.accountId)
-
-    });
+    }).catch(error => console.log(error));
     }, []);
     return (
         <Card style={{ width: '30rem' }}  bg="success" className='me-2'>

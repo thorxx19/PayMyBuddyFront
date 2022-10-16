@@ -1,5 +1,5 @@
 import React, { useEffect,useState } from 'react';
-import Connection from '../service/Connection';
+import { connectService } from '../service/Connection';
 import Moment from 'moment';
 import Card from 'react-bootstrap/Card';
 
@@ -9,11 +9,10 @@ function Brick() {
     const [data, setData] = useState([]);
     const formatDate = Moment(data.date).format('DD/MM/yyyy')
     useEffect(() => {
-      Connection.getFirstTrans().then((dataTransfert) => {
+        connectService.getFirstTrans().then(dataTransfert => {
         setDataIdCredit(dataTransfert.data.idCredit)
         setData(dataTransfert.data)
-
-    });
+    }).catch(error => console.log(error));
     }, []);
 
     return (

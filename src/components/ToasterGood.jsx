@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import Toast from "react-bootstrap/Toast";
 import ToastContainer from "react-bootstrap/ToastContainer";
 import logo from "../assets/logo_Pay.png";
