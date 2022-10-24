@@ -107,9 +107,7 @@ function Transfert() {
   useEffect(() => {
     connectService.connectById().then(responsConnect => {
       responsConnect === 0 ? setConnect([]) : setConnect(responsConnect.data);
-      responsConnect === 0
-        ? setIdDebtor(0)
-        : setIdDebtor(responsConnect.data[0].idUn.id);
+      responsConnect === 0 ? setIdDebtor(0) : setIdDebtor(responsConnect.data[0].idUn.id);
     }).catch(error => console.log(error));
   }, []);
 

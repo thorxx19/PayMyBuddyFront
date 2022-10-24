@@ -7,10 +7,13 @@ import { connectService } from "../service/Connection";
 const Profile = () => {
     const [datas,setDatas] = useState([])
     const [compte,setCompte] = useState([])
-    const number = 8
+
+    
+
+
 
     useEffect(() => {
-        connectService.clientById(number).then(respons => {
+        connectService.clientById().then(respons => {
           respons === 0 ? setDatas([]) : setDatas(respons.data)
           respons === 0 ? setCompte([]) : setCompte(respons.data.accountId)
         }).catch(error => console.log(error));
@@ -32,7 +35,7 @@ const Profile = () => {
                     <Col md={2}>
                         <Form.Group className="mb-3" controlId="formBasicEmail">
                         <FloatingLabel controlId="floatingPassword" label="N° de Compte Client">
-                            <Form.Control type="email" value={datas.id} placeholder="N° de Compte Client" disabled />
+                            <Form.Control type="text" value={datas.id} placeholder="N° de Compte Client" disabled />
                         </FloatingLabel>
                         </Form.Group>
                     </Col>
@@ -46,14 +49,14 @@ const Profile = () => {
                     <Col md={4}>
                         <Form.Group className="mb-3" controlId="formBasicEmail">
                         <FloatingLabel controlId="floatingPassword" label="Nom">
-                            <Form.Control type="email" value={datas.lastName} placeholder="Nom" disabled />
+                            <Form.Control type="text" value={datas.lastName} placeholder="Nom" disabled />
                         </FloatingLabel>
                         </Form.Group>
                     </Col>
                     <Col md={4}>
                         <Form.Group className="mb-3" controlId="formBasicEmail">
                         <FloatingLabel controlId="floatingPassword" label="Prénom">
-                            <Form.Control type="email" value={datas.name} placeholder="Prénom" disabled />
+                            <Form.Control type="text" value={datas.name} placeholder="Prénom" disabled />
                         </FloatingLabel>
                         </Form.Group>
                     </Col>

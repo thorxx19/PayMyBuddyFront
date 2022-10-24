@@ -9,7 +9,6 @@ const Navigation = () => {
     
     const logout = () => {
         accountService.logout()
-        console.log("LogOut")
     }
 
 

@@ -7,11 +7,25 @@ import Card from 'react-bootstrap/Card';
 function Brick() {
     const [dataIdCredit, setDataIdCredit] = useState([]);
     const [data, setData] = useState([]);
-    const formatDate = Moment(data.date).format('DD/MM/yyyy')
+    let amount = ""
+    let name = ""
+    let formatDate = ""
+
+    if (data !== null) {
+        amount = data.amount
+        formatDate = Moment(data.date).format('DD/MM/yyyy')
+    }
+    if (dataIdCredit !==  null && dataIdCredit.idCredit !== null) {
+        name = dataIdCredit.idCredit
+    }
+
+
     useEffect(() => {
         connectService.getFirstTrans().then(dataTransfert => {
-        setDataIdCredit(dataTransfert.data.idCredit)
-        setData(dataTransfert.data)
+            console.log(dataTransfert)
+            dataTransfert.data === [] ? setDataIdCredit([]) : setDataIdCredit(dataTransfert.data)
+            dataTransfert.data === [] ? setData([]) : setData(dataTransfert.data)
+        
     }).catch(error => console.log(error));
     }, []);
 
@@ -21,7 +35,7 @@ function Brick() {
             <Card.Body>
                     <Card.Title>Dernière Transaction</Card.Title>
                 <Card.Text>
-                    Le montant de votre dernière transaction vers le compte de {dataIdCredit.name} le {formatDate} est de {data.amount}€
+                    Le montant de votre dernière transaction vers le compte de {name} le {formatDate} est de {amount}€
                 </Card.Text>
             </Card.Body>
         </Card>

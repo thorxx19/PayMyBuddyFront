@@ -5,10 +5,21 @@ import { Card } from 'react-bootstrap';
 function Brick() {
     const [dataIdDebtor, setDataIdDebtor] = useState([])
     const [data, setData] = useState([])
+    let name = ""
+    let balance = ""
+
+    if (data !== null && data.balance !== null) {
+        balance = data.balance
+    }
+    if (dataIdDebtor !== null && dataIdDebtor.name !== null) {
+        name = dataIdDebtor.name
+    }
+
     useEffect(() => {
         connectService.getFirstTrans().then((dataTransfert) => {
-        setDataIdDebtor(dataTransfert.data.idDebtor)
-        setData(dataTransfert.data.idDebtor.accountId)
+            console.log(dataTransfert)
+            dataTransfert.data === []? setDataIdDebtor([]) : setDataIdDebtor(dataTransfert.data)
+            dataTransfert.data === []? setData([]) : setDataIdDebtor(dataTransfert.data)
     }).catch(error => console.log(error));
     }, []);
     return (
@@ -17,7 +28,7 @@ function Brick() {
             <Card.Body>
             <Card.Title>Solde de votre compte</Card.Title>
                 <Card.Text>
-                    Bonjour {dataIdDebtor.name} le solde de votre compte et de {data.balance}€
+                    Bonjour {name} le solde de votre compte et de {balance}€
                 </Card.Text>
             </Card.Body>
         </Card>

@@ -10,8 +10,8 @@ import { accountService } from "../service/account.service";
     const Login = () => {
         const navigate = useNavigate()
         const [credentials, setCredentials] = useState({
-            email: 'mercel@test.fr',
-            password: 'roger'
+            name: 'Marie-Anne',
+            password: 'admin@O.test'
         })
 
     const onChange = (e) => {
@@ -27,7 +27,6 @@ import { accountService } from "../service/account.service";
             accountService.login(credentials)
                 .then(res => {
                     accountService.saveToken(res.data)
-                    console.log(res.data)
                     navigate('/home')
             })
             .catch(error => console.log(error))
@@ -38,7 +37,7 @@ import { accountService } from "../service/account.service";
             <Form onSubmit={onSubmit}>
                 <Form.Group className="mb-3" controlId="formBasicEmail">
                     <Form.Label>Email address</Form.Label>
-                    <Form.Control type="email" name="email" placeholder="Enter email"  value={credentials.email} onChange={onChange}/>
+                    <Form.Control type="text" name="name" placeholder="Enter email"  value={credentials.name} onChange={onChange}/>
                     <Form.Text className="text-muted">
                     We'll never share your email with anyone else.
                     </Form.Text>
