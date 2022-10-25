@@ -11,7 +11,7 @@ import { connectService } from "../service/Connection";
 const DataTablePaginatorDemo = () => {
   const [customers1, setCustomers1] = useState([]);
   useEffect(() => {
-    connectService.transfert().then(data => setCustomers1(data.data)).catch(error => console.log(error));
+    connectService.getAlltransfert().then(data => setCustomers1(data.data)).catch(error => console.log(error));
   }, []);
 
   return (

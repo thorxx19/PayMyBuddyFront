@@ -13,9 +13,10 @@ const Profile = () => {
 
 
     useEffect(() => {
-        connectService.clientById().then(respons => {
-          respons === 0 ? setDatas([]) : setDatas(respons.data)
-          respons === 0 ? setCompte([]) : setCompte(respons.data.accountId)
+        connectService.getClientById().then(respons => {
+            console.log(respons.data[0])
+          respons.data === [] ? setDatas([]) : setDatas(respons.data[0])
+          respons.data === [] ? setCompte([]) : setCompte(respons.data[0].accountId)
         }).catch(error => console.log(error));
       }, []);
 
@@ -34,35 +35,35 @@ const Profile = () => {
                 
                     <Col md={2}>
                         <Form.Group className="mb-3" controlId="formBasicEmail">
-                        <FloatingLabel controlId="floatingPassword" label="N° de Compte Client">
+                        <FloatingLabel controlId="floatingCompteClient" label="N° de Compte Client">
                             <Form.Control type="text" value={datas.id} placeholder="N° de Compte Client" disabled />
                         </FloatingLabel>
                         </Form.Group>
                     </Col>
                     <Col md={2}>
                         <Form.Group className="mb-3" controlId="formBasicEmail">
-                        <FloatingLabel controlId="floatingPassword" label="N° de Compte Bancaire">
+                        <FloatingLabel controlId="floatingCompteBancaire" label="N° de Compte Bancaire">
                             <Form.Control type="email" value={compte.id} placeholder="N° de Compte Bancaire" disabled />
                         </FloatingLabel>
                         </Form.Group>
                     </Col>
                     <Col md={4}>
                         <Form.Group className="mb-3" controlId="formBasicEmail">
-                        <FloatingLabel controlId="floatingPassword" label="Nom">
+                        <FloatingLabel controlId="floatingNom" label="Nom">
                             <Form.Control type="text" value={datas.lastName} placeholder="Nom" disabled />
                         </FloatingLabel>
                         </Form.Group>
                     </Col>
                     <Col md={4}>
                         <Form.Group className="mb-3" controlId="formBasicEmail">
-                        <FloatingLabel controlId="floatingPassword" label="Prénom">
+                        <FloatingLabel controlId="floatingPrenom" label="Prénom">
                             <Form.Control type="text" value={datas.name} placeholder="Prénom" disabled />
                         </FloatingLabel>
                         </Form.Group>
                     </Col>
                     <Col md={4}>
                         <Form.Group className="mb-3" controlId="formBasicEmail">
-                        <FloatingLabel controlId="floatingPassword" label="Email adresse">
+                        <FloatingLabel controlId="floatingAdress" label="Email adresse">
                             <Form.Control type="email" value={datas.mail} placeholder="Enter email" disabled />
                         </FloatingLabel>
                         </Form.Group>

@@ -1,19 +1,19 @@
 import { accountService } from './account.service'
 import Axios from './caller'
 
-let transfert = () => {
+let getAlltransfert = () => {
     let number = accountService.getId()
-    return Axios.get('/transfert',{
+    return Axios.get('/transferts',{
         params: {id: number}   
     })
 }
-let clientById = () => {
+let getClientById = () => {
     let number = accountService.getId()
     return Axios.get('/client',{
         params: {id: number}
     })
 }
-let connectById = () => {
+let getConnectById = () => {
     let number = accountService.getId()
     return Axios.get('/connect',{
         params: {id: number}
@@ -38,5 +38,5 @@ let getFirstTrans = () => {
 }
 
 export const connectService = {
-    transfert, clientById, connectById, postTransfert, getAllClients, getFirstTrans
+    getAlltransfert, getClientById, getConnectById, postTransfert, getAllClients, getFirstTrans
 }

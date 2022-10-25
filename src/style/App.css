@@ -27,6 +27,21 @@
 .App-link {
   color: #61dafb;
 }
+.home {
+  border: solid black 1px;
+  border-radius: 10px;
+  padding: 80px 0px 30px 0px;
+  box-shadow: 4px 5px 10px black;
+}
+.buttonLogin {
+  padding: 10px 70px 10px 70px !important;
+  box-shadow: 2px 2px 6px black;
+}
+.card {
+  box-shadow: 2px 2px 6px black;
+  padding: 0px !important;
+}
+
 
 @keyframes App-logo-spin {
   from {

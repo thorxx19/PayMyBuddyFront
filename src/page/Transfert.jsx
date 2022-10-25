@@ -86,7 +86,7 @@ function Transfert() {
       setStyleSelect("styleNumberNoGood");
     }
     if (idCredit > 0 && solde > 0) {
-      connectService.clientById(idCredit).then((respons) => {
+      connectService.getClientById(idCredit).then((respons) => {
         respons === 0 ? setName("") : setName(respons.data.name);
       }).catch(error => console.log(error));
       setShow3(true);
@@ -105,7 +105,7 @@ function Transfert() {
   };
 
   useEffect(() => {
-    connectService.connectById().then(responsConnect => {
+    connectService.getConnectById().then(responsConnect => {
       responsConnect === 0 ? setConnect([]) : setConnect(responsConnect.data);
       responsConnect === 0 ? setIdDebtor(0) : setIdDebtor(responsConnect.data[0].idUn.id);
     }).catch(error => console.log(error));
