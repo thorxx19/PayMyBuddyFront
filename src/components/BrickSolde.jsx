@@ -8,18 +8,17 @@ function Brick() {
     let name = ""
     let balance = ""
 
-    if (data !== null && data.balance !== null) {
-        balance = data.balance
+    if (dataIdDebtor !== []) {
+        balance = dataIdDebtor.balance
     }
-    if (dataIdDebtor !== null && dataIdDebtor.name !== null) {
-        name = dataIdDebtor.name
+    if (dataIdDebtor !== []) {
+        name = data.name
     }
 
     useEffect(() => {
         connectService.getFirstTrans().then((dataTransfert) => {
-            console.log(dataTransfert)
-            dataTransfert.data === []? setDataIdDebtor([]) : setDataIdDebtor(dataTransfert.data)
-            dataTransfert.data === []? setData([]) : setDataIdDebtor(dataTransfert.data)
+            dataTransfert.data === [] ? setDataIdDebtor([]) : setDataIdDebtor(dataTransfert.data[0].idDebtor.accountId)
+            dataTransfert.data === [] ? setData([]) : setData(dataTransfert.data[0].idDebtor)
     }).catch(error => console.log(error));
     }, []);
     return (

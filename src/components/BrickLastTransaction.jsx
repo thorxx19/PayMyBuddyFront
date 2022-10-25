@@ -8,23 +8,24 @@ function Brick() {
     const [dataIdCredit, setDataIdCredit] = useState([]);
     const [data, setData] = useState([]);
     let amount = ""
-    let name = ""
     let formatDate = ""
+    let name = ""
+    
 
-    if (data !== null) {
+    if (data !== []) {
         amount = data.amount
         formatDate = Moment(data.date).format('DD/MM/yyyy')
     }
-    if (dataIdCredit !==  null && dataIdCredit.idCredit !== null) {
-        name = dataIdCredit.idCredit
+    if(dataIdCredit !== []){
+        name = dataIdCredit.name
     }
+    
 
 
     useEffect(() => {
         connectService.getFirstTrans().then(dataTransfert => {
-            console.log(dataTransfert)
-            dataTransfert.data === [] ? setDataIdCredit([]) : setDataIdCredit(dataTransfert.data)
-            dataTransfert.data === [] ? setData([]) : setData(dataTransfert.data)
+            dataTransfert.data === [] ? setDataIdCredit([]) : setDataIdCredit(dataTransfert.data[0].idCredit)
+            dataTransfert.data === [] ? setData([]) : setData(dataTransfert.data[0])
         
     }).catch(error => console.log(error));
     }, []);

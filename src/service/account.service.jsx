@@ -9,6 +9,7 @@ let saveToken = (token) => {
     console.log(token)
     localStorage.setItem('id',token.userId)
     localStorage.setItem('token', token.accessToken)
+    
 }
 
 let logout = () => {

@@ -9,14 +9,14 @@ let transfert = () => {
 }
 let clientById = () => {
     let number = accountService.getId()
-    return Axios.get('/clients/',{
+    return Axios.get('/client',{
         params: {id: number}
     })
 }
 let connectById = () => {
     let number = accountService.getId()
-    return Axios.get('/connect/',{
-        params: {idUn: number}
+    return Axios.get('/connect',{
+        params: {id: number}
     })
 }
 let postTransfert = (idDebtor, idCredit, balance , descriptif) => {
