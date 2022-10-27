@@ -10,7 +10,7 @@ import { accountService } from "../service/account.service";
         const [isRegister, setIsRegister] = useState(true)
         const [credentials, setCredentials] = useState({
             name: 'Marie-Anne',
-            password: 'admin@O.test'
+            password: 'testPass'
         })
 
         const changeTrue = () => {

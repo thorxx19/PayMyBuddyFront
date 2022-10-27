@@ -15,6 +15,7 @@ import SideBars from "../components/SideBars";
 import Navigation from "../components/Navigation";
 import ToasterGood from "../components/ToasterGood";
 import ToasterBad from "../components/ToasterBad";
+import { useNavigate } from "react-router-dom";
 
 
 
@@ -30,6 +31,7 @@ function Transfert() {
   const [show3, setShow3] = useState(false);
   const [styleNumber, setStyleNumber] = useState("");
   const [styleSelect, setStyleSelect] = useState("");
+  const navigate = useNavigate();
 
   const handleChange = (event) => {
     console.log(event.target.value);
@@ -106,9 +108,13 @@ function Transfert() {
 
   useEffect(() => {
     connectService.getConnectById().then(responsConnect => {
-      responsConnect === 0 ? setConnect([]) : setConnect(responsConnect.data);
-      responsConnect === 0 ? setIdDebtor(0) : setIdDebtor(responsConnect.data[0].idUn.id);
-    }).catch(error => console.log(error));
+      responsConnect.data.length === 0 ? setConnect([]) : setConnect(responsConnect.data);
+      responsConnect.data.length === 0 ? setIdDebtor(0) : setIdDebtor(responsConnect.data[0].idUn.id);
+    }).catch(error => {
+      if (error.response.status === 401) {
+        navigate('/auth/login')
+      }
+    });
   }, []);
 
   return (

@@ -9,36 +9,22 @@ import { Column } from "primereact/column";
 import { connectService } from "../service/Connection";
 
 const DataTablePaginatorDemo = () => {
-  const [customers1, setCustomers1] = useState([]);
+  const [datas, setDatas] = useState([]);
   useEffect(() => {
-    connectService.getAlltransfert().then(data => setCustomers1(data.data)).catch(error => console.log(error));
+    connectService.getAlltransfert()
+    .then(data => {
+      data.data.length === 0 ? setDatas([]) : setDatas(data.data)
+    })
+    .catch(error => console.log(error));
   }, []);
 
   return (
     <div>
       <div className="card">
-        <DataTable
-          value={customers1}
-          paginator
-          responsiveLayout="scroll"
-          paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink "
-          currentPageReportTemplate="Showing {first} to {last} of {totalRecords}"
-          rows={5}
-          rowsPerPageOptions={[5, 10, 20]}
-        >
-          <Column
-            field="idCredit.name"
-            header="Connections"
-            style={{ width: "25%" }}
-          ></Column>
-          <Column
-            field="description"
-            header="Description"
-            style={{ width: "25%" }}
-          ></Column>
-          <Column field="amount" header="Amount" style={{ width: "25%" }}>
-            €
-          </Column>
+        <DataTable value={datas} paginator responsiveLayout="scroll" paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink " currentPageReportTemplate="Showing {first} to {last} of {totalRecords}" rows={5} rowsPerPageOptions={[5, 10, 20]}>
+          <Column field="idCredit.name" header="Connections" style={{ width: "25%" }} ></Column>
+          <Column field="description" header="Description" style={{ width: "25%" }} ></Column>
+          <Column field="amount" header="Amount" style={{ width: "25%" }}> € </Column>
         </DataTable>
       </div>
     </div>

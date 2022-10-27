@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Col, Container, FloatingLabel, Form, Breadcrumb } from "react-bootstrap";
+import { useNavigate } from 'react-router-dom';
 import Navigation from '../components/Navigation';
 import { connectService } from "../service/Connection";
 
@@ -7,17 +8,17 @@ import { connectService } from "../service/Connection";
 const Profile = () => {
     const [datas,setDatas] = useState([])
     const [compte,setCompte] = useState([])
-
-    
-
-
+    const navigate = useNavigate();
 
     useEffect(() => {
         connectService.getClientById().then(respons => {
-            console.log(respons.data[0])
-          respons.data === [] ? setDatas([]) : setDatas(respons.data[0])
-          respons.data === [] ? setCompte([]) : setCompte(respons.data[0].accountId)
-        }).catch(error => console.log(error));
+          respons.data.length === 0 ? setDatas([]) : setDatas(respons.data[0])
+          respons.data.length === 0 ? setCompte([]) : setCompte(respons.data[0].accountId)
+        }).catch(error => {
+            if (error.response.status === 401) {
+              navigate('/auth/login')
+            }
+          });
       }, []);
 
 

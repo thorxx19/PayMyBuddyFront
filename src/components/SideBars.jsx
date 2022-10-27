@@ -8,7 +8,7 @@ import Form from 'react-bootstrap/Form';
 
 function OffCanvasExample({ name, ...props }) {
     const [show, setShow] = useState(false);
-    const [data, setData] = useState([]);
+    const [datas, setDatas] = useState([]);
     const [idCredit, setIdCredit] = useState(0)
 
     const handleClose = () => setShow(false);
@@ -21,7 +21,7 @@ function OffCanvasExample({ name, ...props }) {
 
   useEffect(()=>{
       connectService.getAllClients().then(respons => {
-        respons === 0 ? console.log("no save") : setData(respons.data);
+        respons.data.length === 0 ? setDatas([]) : setDatas(respons.data);
     }).catch(error => console.log(error))
   }, [])
 
@@ -38,8 +38,8 @@ function OffCanvasExample({ name, ...props }) {
             <FloatingLabel controlId="floatingSelect" label="Ajoute un ami">
             <Form.Select value={idCredit} onChange={handChange} aria-label="Floating label select example">
                 <option value={0}>Open this select menu</option>
-                    {data.map((dat)=>(
-                        <option key={dat.id} value={dat.id}>{dat.name}</option>
+                    {datas.map((data)=>(
+                        <option key={data.id} value={data.id}>{data.name}</option>
                     ))}
             </Form.Select>
             </FloatingLabel>

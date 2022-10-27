@@ -9,8 +9,7 @@ function Brick() {
 
     useEffect(() => {
         connectService.getFirstTrans().then(dataTransfert => {
-            console.log(dataTransfert.data)
-            dataTransfert.data === [] ? setDatas([]) : setDatas(dataTransfert.data)
+            dataTransfert.data.length === 0 ? setDatas([]) : setDatas(dataTransfert.data)
         
     }).catch(error => console.log(error));
     }, []);

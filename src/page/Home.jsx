@@ -6,20 +6,31 @@ import Breadcrumb from "react-bootstrap/Breadcrumb";
 import BrickLastTransfert from "../components/BrickLastTransaction";
 import BrickSolde from "../components/BrickSolde";
 import { connectService } from '../service/Connection';
+import { useNavigate } from "react-router-dom";
 
 
 const Home = () => {
 
     const [datas, setDatas] = useState(false);
     const [data, setData] = useState(false)
+    const navigate = useNavigate()
+
 
     useEffect(() => {
-        connectService.getFirstTrans().then(dataTransfert => {
-            dataTransfert.data === [] ? setDatas(false) : setDatas(true);
-    }).catch(error => console.log(error));
-        connectService.getClientById().then((dataTransfert) => {
-            dataTransfert.data === [] ? setData(false) : setData(true)
-    }).catch(error => console.log(error));
+        connectService.getFirstTrans().then(dataTrans => {
+            dataTrans.data.length === 0 ? setDatas(false) : setDatas(true);
+    }).catch(error => {
+        if (error.response.status === 401) {
+          navigate('/auth/login')
+        }
+      });
+        connectService.getClientById().then(dataTransfert => {
+            dataTransfert.data.length === 0 ? setData(false) : setData(true)
+    }).catch(error => {
+        if (error.response.status === 401) {
+          navigate('/auth/login')
+        }
+      });
     }, []);
 
 
