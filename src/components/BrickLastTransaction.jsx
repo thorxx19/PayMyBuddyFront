@@ -2,16 +2,24 @@ import React, { useEffect,useState } from 'react';
 import { connectService } from '../service/Connection';
 import Moment from 'moment';
 import Card from 'react-bootstrap/Card';
+import { accountService } from '../service/account.service';
+import { useNavigate } from 'react-router-dom';
 
 
 function Brick() {
     const [datas, setDatas] = useState([]);
+    const navigate = useNavigate()
 
     useEffect(() => {
         connectService.getFirstTrans().then(dataTransfert => {
             dataTransfert.data.length === 0 ? setDatas([]) : setDatas(dataTransfert.data)
         
-    }).catch(error => console.log(error));
+    }).catch(error => {
+        if (error.response.status === 401) {
+            accountService.logout();
+            navigate('/auth/login')
+          }
+    });
     }, []);
 
     return (

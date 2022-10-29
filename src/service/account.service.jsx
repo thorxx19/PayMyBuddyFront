@@ -1,9 +1,4 @@
-import Axios from "./caller";
 
-
-let login = (credentials) => {
-    return Axios.post('/auth/login', credentials)
-}
 
 let saveToken = (token) => {
     console.log(token)
@@ -31,5 +26,5 @@ let getId = () => {
 }
 
 export const accountService = {
-    saveToken, logout, isLogged, login, getToken, getId
+    saveToken, logout, isLogged, getToken, getId
 }

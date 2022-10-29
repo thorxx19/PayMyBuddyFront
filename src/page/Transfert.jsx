@@ -16,6 +16,8 @@ import Navigation from "../components/Navigation";
 import ToasterGood from "../components/ToasterGood";
 import ToasterBad from "../components/ToasterBad";
 import { useNavigate } from "react-router-dom";
+import { accountService } from "../service/account.service";
+
 
 
 
@@ -69,8 +71,8 @@ function Transfert() {
       setShow1(!show1);
     }, 500);
     setTimeout(() => {
-      window.location.reload(false);
       setShow1(false);
+      window.location.reload(false);
     }, 3000);
   };
 
@@ -100,8 +102,14 @@ function Transfert() {
     if (idCredit > 0 && solde > 0) {
       connectService.postTransfert(idDebtor, idCredit, solde, descript).then(
           respons => {
-          respons === false ? handleCloseEchec() : handleValid();
-        }).catch(error => console.log(error));
+            console.log(respons)
+            if (respons.request.status === 200) {
+              handleValid()
+            }
+        }).catch(error => {
+          console.log(error)
+          handleCloseEchec()
+        });
     }
     event.preventDefault();
   };
@@ -112,6 +120,7 @@ function Transfert() {
       responsConnect.data.length === 0 ? setIdDebtor(0) : setIdDebtor(responsConnect.data[0].idUn.id);
     }).catch(error => {
       if (error.response.status === 401) {
+        accountService.logout();
         navigate('/auth/login')
       }
     });
@@ -159,7 +168,7 @@ function Transfert() {
             </InputGroup>
           </Col>
           <Col xs={4}>
-            <Button variant="outline-success" onClick={handleShow}>
+            <Button variant="outline-success" onClick={handleShow} className='buttonPay'>
               Pay
             </Button>{" "}
           </Col>

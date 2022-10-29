@@ -7,15 +7,24 @@ import React, { useState, useEffect } from "react";
 import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
 import { connectService } from "../service/Connection";
+import { accountService } from "../service/account.service";
+import { useNavigate } from "react-router-dom";
+
 
 const DataTablePaginatorDemo = () => {
   const [datas, setDatas] = useState([]);
+  const navigate = useNavigate()
   useEffect(() => {
     connectService.getAlltransfert()
     .then(data => {
       data.data.length === 0 ? setDatas([]) : setDatas(data.data)
     })
-    .catch(error => console.log(error));
+    .catch(error => {
+      if (error.response.status === 401) {
+        accountService.logout();
+        navigate('/auth/login')
+      }
+    });
   }, []);
 
   return (

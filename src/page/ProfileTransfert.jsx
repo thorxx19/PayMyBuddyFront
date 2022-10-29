@@ -2,13 +2,60 @@ import React, { useEffect, useState } from 'react';
 import { Col, Container, FloatingLabel, Form, Breadcrumb } from "react-bootstrap";
 import { useNavigate } from 'react-router-dom';
 import Navigation from '../components/Navigation';
+import { accountService } from '../service/account.service';
 import { connectService } from "../service/Connection";
+import InputGroup from "react-bootstrap/InputGroup";
+import Button from "react-bootstrap/Button";
+import ToasterGood from "../components/ToasterGood";
+import ToasterBad from "../components/ToasterBad";
 
 
 const Profile = () => {
     const [datas,setDatas] = useState([])
     const [compte,setCompte] = useState([])
+    const [solde, setSolde] = useState(0);
+    const [show1, setShow1] = useState(false);
+    const [show3, setShow3] = useState(false);
+    const [show2, setShow2] = useState(false);
     const navigate = useNavigate();
+
+    const handleChangeCount = (event) => {
+        setSolde(event.target.value);
+        event.preventDefault();
+      };
+      const handleValid = () => {
+        setShow3(false);
+        setTimeout(() => {
+          setShow1(!show1);
+        }, 500);
+        setTimeout(() => {
+          setShow1(false);
+          window.location.reload(false);
+        }, 3000);
+      };
+      const handleCloseEchec = () => {
+        setShow3(false);
+        setTimeout(() => {
+          setShow2(!show2);
+        }, 500);
+        setTimeout(() => {
+          setShow2(false);
+        }, 3000);
+      };
+
+const AddCompte = () => {
+    connectService.modifCompte(solde).then(respons => {
+        console.log(respons)
+        if (respons.request.status === 200) {
+            handleValid()
+        }
+    }).catch(error => {
+        console.log(error)
+        if (error.request.status === 403) {
+            handleCloseEchec()
+        }
+    })
+}
 
     useEffect(() => {
         connectService.getClientById().then(respons => {
@@ -16,6 +63,7 @@ const Profile = () => {
           respons.data.length === 0 ? setCompte([]) : setCompte(respons.data[0].accountId)
         }).catch(error => {
             if (error.response.status === 401) {
+                accountService.logout()
               navigate('/auth/login')
             }
           });
@@ -24,6 +72,7 @@ const Profile = () => {
 
     return (
         <Container>
+           
             <Navigation/>
             <Breadcrumb>
                 <Breadcrumb.Item href="/home">Home</Breadcrumb.Item>
@@ -76,8 +125,20 @@ const Profile = () => {
                         </FloatingLabel>
                         </Form.Group>
                     </Col>
-                
             </Form>
+                    <Col className='profilEnd'>
+                        <h1 className='text-center'>Créditer ou Débiter votre compte</h1>
+                        <Col xs={10}>
+                            <InputGroup>
+                                <Form.Control type="number" min={compte.balance - (compte.balance*2)} max={100} step={1} value={solde} onChange={handleChangeCount} required size="lg"></Form.Control>
+                                <Button variant="outline-success" onClick={AddCompte}>Valider</Button>{" "}
+                            </InputGroup>
+                        </Col>
+                    </Col>
+                     {/* TOASTER */}
+                        <ToasterGood toasterGood={show1} />
+                        <ToasterBad toasterBad={show2} />
+                    {/* TOASTER */}
         </Container>
     );
 }

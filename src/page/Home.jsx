@@ -7,6 +7,7 @@ import BrickLastTransfert from "../components/BrickLastTransaction";
 import BrickSolde from "../components/BrickSolde";
 import { connectService } from '../service/Connection';
 import { useNavigate } from "react-router-dom";
+import { accountService } from "../service/account.service";
 
 
 const Home = () => {
@@ -28,6 +29,7 @@ const Home = () => {
             dataTransfert.data.length === 0 ? setData(false) : setData(true)
     }).catch(error => {
         if (error.response.status === 401) {
+            accountService.logout()
           navigate('/auth/login')
         }
       });

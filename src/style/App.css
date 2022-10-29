@@ -40,6 +40,18 @@
 .card {
   box-shadow: 2px 2px 6px black;
   padding: 0px !important;
+  position: absolute;
+}
+.p-autocomplete-panel{
+  z-index: 2000 !important;
+}
+.profilEnd{
+  padding-bottom: 50px;
+  padding-left: 5px;
+  background-color: #d1d8e0;
+}
+.buttonPay{
+  padding: 5px 55px 5px 55px !important;
 }
 
 

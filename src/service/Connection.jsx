@@ -36,7 +36,34 @@ let getFirstTrans = () => {
         params: {id: number}
     })
 }
+let login = (credentials) => {
+    return Axios.post('/auth/login', credentials)
+}
+let register = (credentials) => {
+    return Axios.post('/auth/register', credentials)
+}
+let getAllConnect = () => {
+    let number = accountService.getId()
+    return Axios.get('/mail',{
+        params:{id: number}
+    })
+}
+let postConnect = (idUn,idDeux) => {
+    return Axios.post('/connect',{
+        idUn,
+        idDeux  
+    })
+}
+let modifCompte = (balance) => {
+    let id = accountService.getId()
+    return Axios.put('/solde',{
+        balance,
+        id
+    })
+}
+
 
 export const connectService = {
-    getAlltransfert, getClientById, getConnectById, postTransfert, getAllClients, getFirstTrans
+    getAlltransfert, getClientById, getConnectById, postTransfert, getAllClients,
+     getFirstTrans, login , register, getAllConnect, postConnect, modifCompte
 }
