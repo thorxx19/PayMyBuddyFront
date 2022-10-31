@@ -17,6 +17,7 @@ import ToasterGood from "../components/ToasterGood";
 import ToasterBad from "../components/ToasterBad";
 import { useNavigate } from "react-router-dom";
 import { accountService } from "../service/account.service";
+import { InputNumber } from "primereact/inputnumber"
 
 
 
@@ -77,8 +78,6 @@ function Transfert() {
   };
 
   const handleShow = (event) => {
-    console.log(solde);
-
     if (solde > 0) {
       setStyleNumber("styleNumberGood");
     } else {
@@ -90,8 +89,10 @@ function Transfert() {
       setStyleSelect("styleNumberNoGood");
     }
     if (idCredit > 0 && solde > 0) {
-      connectService.getClientById(idCredit).then((respons) => {
-        respons === 0 ? setName("") : setName(respons.data.name);
+      connectService.getClientById(idCredit).then(respons => {
+        if (respons.request.status === 200) {
+          setName(respons.data[0].name)
+        }
       }).catch(error => console.log(error));
       setShow3(true);
     }
@@ -148,11 +149,7 @@ function Transfert() {
         <Row className="my-3">
           <Col xs={4}>
             <FloatingLabel controlId="floatingSelect" label="Choisis un ami">
-              <Form.Select
-                value={idCredit}
-                className={styleSelect}
-                onChange={handleChange}
-              >
+              <Form.Select value={idCredit} className={styleSelect} onChange={handleChange} >
                 <option value={0}>Open this select menu</option>
                 {connect.map((con) => (
                   <option key={con.idDeux.id} value={con.idDeux.id}>
@@ -164,7 +161,7 @@ function Transfert() {
           </Col>
           <Col xs={4}>
             <InputGroup>
-              <Form.Control type="number" className={styleNumber} min={0} max={100} step={1} value={solde} onChange={handleChangeCount} required size="lg"></Form.Control>
+              <InputNumber value={solde} min={0} max={100} step={1} onValueChange={handleChangeCount} showButtons mode="currency" currency="EUR"/>
             </InputGroup>
           </Col>
           <Col xs={4}>
@@ -181,7 +178,8 @@ function Transfert() {
           <Modal show={show3} onHide={handleClose} backdrop="static" keyboard={false}>
             <Modal.Header>
               <Modal.Title>
-                Validation du Transfert de votre compte au compte de {name} d'un montant de {solde} €
+                Validation du Transfert de votre compte au compte de {name} d'un montant de {solde} €. <br/>
+              <span className="spanTitle">Des frais de 0,5% sont appliqués à la transaction.</span> 
               </Modal.Title>
             </Modal.Header>
             <Modal.Body>

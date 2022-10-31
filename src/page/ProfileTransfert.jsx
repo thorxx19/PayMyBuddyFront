@@ -8,6 +8,7 @@ import InputGroup from "react-bootstrap/InputGroup";
 import Button from "react-bootstrap/Button";
 import ToasterGood from "../components/ToasterGood";
 import ToasterBad from "../components/ToasterBad";
+import { InputNumber } from "primereact/inputnumber"
 
 
 const Profile = () => {
@@ -130,7 +131,7 @@ const AddCompte = () => {
                         <h1 className='text-center'>Créditer ou Débiter votre compte</h1>
                         <Col xs={10}>
                             <InputGroup>
-                                <Form.Control type="number" min={compte.balance - (compte.balance*2)} max={100} step={1} value={solde} onChange={handleChangeCount} required size="lg"></Form.Control>
+                                <InputNumber className='inputNb' value={solde} min={compte.balance - (compte.balance*2)} max={100} step={1} onValueChange={handleChangeCount} showButtons mode="currency" currency="EUR"/>
                                 <Button variant="outline-success" onClick={AddCompte}>Valider</Button>{" "}
                             </InputGroup>
                         </Col>

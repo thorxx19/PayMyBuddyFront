@@ -53,6 +53,14 @@
 .buttonPay{
   padding: 5px 55px 5px 55px !important;
 }
+.inputNb{
+  width: 600px;
+}
+.spanTitle{
+font-size: 13px;
+font-style: italic;
+color: red;
+}
 
 
 @keyframes App-logo-spin {

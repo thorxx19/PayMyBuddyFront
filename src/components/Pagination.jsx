@@ -33,7 +33,7 @@ const DataTablePaginatorDemo = () => {
         <DataTable value={datas} paginator responsiveLayout="scroll" paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink " currentPageReportTemplate="Showing {first} to {last} of {totalRecords}" rows={5} rowsPerPageOptions={[5, 10, 20]}>
           <Column field="idCredit.name" header="Connections" style={{ width: "25%" }} ></Column>
           <Column field="description" header="Description" style={{ width: "25%" }} ></Column>
-          <Column field="amount" header="Amount" style={{ width: "25%" }}> € </Column>
+          <Column field="amount" header="Amount" style={{ width: "25%" }}>€</Column>
         </DataTable>
       </div>
     </div>

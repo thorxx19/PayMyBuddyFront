@@ -15,7 +15,7 @@ import ToasterBad from "../components/ToasterBad";
         const [show2, setShow2] = useState(false);
 
         const [credentials, setCredentials] = useState({
-            name: 'Marie-Anne',
+            mail: 'test@test.fr',
             password: 'admin@O.test'
         })
         const [credentialsRegister, setCredentialsRegister] = useState({
@@ -97,7 +97,7 @@ import ToasterBad from "../components/ToasterBad";
             <Col xs="10" lg="9" className="m-auto">
                 <Form.Group className="mb-3" controlId="formBasicEmail">
                     <Form.Label>Email address</Form.Label>
-                    <Form.Control type="text" name="name" placeholder="Enter email"  value={credentials.name} onChange={onChange}/>
+                    <Form.Control type="email" name="name" placeholder="Enter email"  value={credentials.mail} onChange={onChange}/>
                     <Form.Text className="text-muted">
                     We'll never share your email with anyone else.
                     </Form.Text>
