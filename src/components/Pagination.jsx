@@ -6,39 +6,34 @@ import "../style/index.css";
 import React, { useState, useEffect } from "react";
 import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
-import Connection from "../service/Connection";
+import { connectService } from "../service/Connection";
+import { accountService } from "../service/account.service";
+import { useNavigate } from "react-router-dom";
+
 
 const DataTablePaginatorDemo = () => {
-  const [customers1, setCustomers1] = useState([]);
+  const [datas, setDatas] = useState([]);
+  const navigate = useNavigate()
   useEffect(() => {
-    Connection.getAllTransfer().then((data) => setCustomers1(data.data));
+    connectService.getAlltransfert()
+    .then(data => {
+      data.data.length === 0 ? setDatas([]) : setDatas(data.data)
+    })
+    .catch(error => {
+      if (error.response.status === 401) {
+        accountService.logout();
+        navigate('/auth/login')
+      }
+    });
   }, []);
 
   return (
     <div>
       <div className="card">
-        <DataTable
-          value={customers1}
-          paginator
-          responsiveLayout="scroll"
-          paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink "
-          currentPageReportTemplate="Showing {first} to {last} of {totalRecords}"
-          rows={5}
-          rowsPerPageOptions={[5, 10, 20]}
-        >
-          <Column
-            field="idCredit.name"
-            header="Connections"
-            style={{ width: "25%" }}
-          ></Column>
-          <Column
-            field="description"
-            header="Description"
-            style={{ width: "25%" }}
-          ></Column>
-          <Column field="amount" header="Amount" style={{ width: "25%" }}>
-            €
-          </Column>
+        <DataTable value={datas} paginator responsiveLayout="scroll" paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink " currentPageReportTemplate="Showing {first} to {last} of {totalRecords}" rows={5} rowsPerPageOptions={[5, 10, 20]}>
+          <Column field="idCredit.name" header="Connections" style={{ width: "25%" }} ></Column>
+          <Column field="description" header="Description" style={{ width: "25%" }} ></Column>
+          <Column field="amount" header="Amount" style={{ width: "25%" }}>€</Column>
         </DataTable>
       </div>
     </div>

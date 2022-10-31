@@ -9,7 +9,7 @@ const Contact = () => {
         <Container>
             <Navigation/>
             <Breadcrumb>
-                <Breadcrumb.Item href="/">Home</Breadcrumb.Item>
+                <Breadcrumb.Item href="/home">Home</Breadcrumb.Item>
                 <Breadcrumb.Item href="/transfert">Transfert</Breadcrumb.Item>
                 <Breadcrumb.Item href='/profile'>Profile</Breadcrumb.Item>
                 <Breadcrumb.Item active>Contact</Breadcrumb.Item>

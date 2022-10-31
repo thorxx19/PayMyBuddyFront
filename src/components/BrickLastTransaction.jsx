@@ -1,29 +1,40 @@
 import React, { useEffect,useState } from 'react';
-import Connection from '../service/Connection';
+import { connectService } from '../service/Connection';
 import Moment from 'moment';
 import Card from 'react-bootstrap/Card';
+import { accountService } from '../service/account.service';
+import { useNavigate } from 'react-router-dom';
 
 
 function Brick() {
-    const [dataIdCredit, setDataIdCredit] = useState([]);
-    const [data, setData] = useState([]);
-    const formatDate = Moment(data.date).format('DD/MM/yyyy')
-    useEffect(() => {
-      Connection.getFirstTrans().then((dataTransfert) => {
-        setDataIdCredit(dataTransfert.data.idCredit)
-        setData(dataTransfert.data)
+    const [datas, setDatas] = useState([]);
+    const navigate = useNavigate()
 
+    useEffect(() => {
+        connectService.getFirstTrans().then(dataTransfert => {
+            dataTransfert.data.length === 0 ? setDatas([]) : setDatas(dataTransfert.data)
+        
+    }).catch(error => {
+        if (error.response.status === 401) {
+            accountService.logout();
+            navigate('/auth/login')
+          }
     });
     }, []);
 
     return (
-        <Card  style={{ width: '30rem' }}  bg="warning" className='me-2'>
-                <Card.Header><i class="fa-solid fa-money-bill-transfer"></i></Card.Header>
+        <Card  style={{ width: '30rem' }}  bg="warning" className='card my-2'>
+                <Card.Header><i className="fa-solid fa-money-bill-transfer"></i></Card.Header>
             <Card.Body>
                     <Card.Title>Dernière Transaction</Card.Title>
-                <Card.Text>
-                    Le montant de votre dernière transaction vers le compte de {dataIdCredit.name} le {formatDate} est de {data.amount}€
-                </Card.Text>
+                    {
+                        datas.map(data => (
+                            <Card.Text key={data.id}>
+                                Le montant de votre dernière transaction vers le compte de {data.idCredit.name} le {Moment(data.date).format('DD/MM/yyyy')} est de {data.amount}€
+                            </Card.Text>
+                        ))
+                        
+                    }
             </Card.Body>
         </Card>
     );

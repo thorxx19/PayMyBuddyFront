@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import Connection from "../service/Connection";
+import { connectService } from "../service/Connection";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
@@ -15,6 +15,10 @@ import SideBars from "../components/SideBars";
 import Navigation from "../components/Navigation";
 import ToasterGood from "../components/ToasterGood";
 import ToasterBad from "../components/ToasterBad";
+import { useNavigate } from "react-router-dom";
+import { accountService } from "../service/account.service";
+import { InputNumber } from "primereact/inputnumber"
+
 
 
 
@@ -30,6 +34,7 @@ function Transfert() {
   const [show3, setShow3] = useState(false);
   const [styleNumber, setStyleNumber] = useState("");
   const [styleSelect, setStyleSelect] = useState("");
+  const navigate = useNavigate();
 
   const handleChange = (event) => {
     console.log(event.target.value);
@@ -67,14 +72,12 @@ function Transfert() {
       setShow1(!show1);
     }, 500);
     setTimeout(() => {
-      window.location.reload(false);
       setShow1(false);
+      window.location.reload(false);
     }, 3000);
   };
 
   const handleShow = (event) => {
-    console.log(solde);
-
     if (solde > 0) {
       setStyleNumber("styleNumberGood");
     } else {
@@ -86,9 +89,11 @@ function Transfert() {
       setStyleSelect("styleNumberNoGood");
     }
     if (idCredit > 0 && solde > 0) {
-      Connection.getClientById(idCredit).then((respons) => {
-        respons === 0 ? setName("") : setName(respons.data.name);
-      });
+      connectService.getClientById(idCredit).then(respons => {
+        if (respons.request.status === 200) {
+          setName(respons.data[0].name)
+        }
+      }).catch(error => console.log(error));
       setShow3(true);
     }
     event.preventDefault();
@@ -96,21 +101,29 @@ function Transfert() {
 
   const handleSubmit = (event) => {
     if (idCredit > 0 && solde > 0) {
-      Connection.postTransfert(idDebtor, idCredit, solde, descript).then(
-        (respons) => {
-          respons === false ? handleCloseEchec() : handleValid();
-        }
-      );
+      connectService.postTransfert(idDebtor, idCredit, solde, descript).then(
+          respons => {
+            console.log(respons)
+            if (respons.request.status === 200) {
+              handleValid()
+            }
+        }).catch(error => {
+          console.log(error)
+          handleCloseEchec()
+        });
     }
     event.preventDefault();
   };
 
   useEffect(() => {
-    Connection.getConnectById().then((responsConnect) => {
-      responsConnect === 0 ? setConnect([]) : setConnect(responsConnect.data);
-      responsConnect === 0
-        ? setIdDebtor(0)
-        : setIdDebtor(responsConnect.data[0].idUn.id);
+    connectService.getConnectById().then(responsConnect => {
+      responsConnect.data.length === 0 ? setConnect([]) : setConnect(responsConnect.data);
+      responsConnect.data.length === 0 ? setIdDebtor(0) : setIdDebtor(responsConnect.data[0].idUn.id);
+    }).catch(error => {
+      if (error.response.status === 401) {
+        accountService.logout();
+        navigate('/auth/login')
+      }
     });
   }, []);
 
@@ -118,7 +131,7 @@ function Transfert() {
     <Container fluid="md" className="justify-content-md-center">
       <Navigation />
       <Breadcrumb>
-        <Breadcrumb.Item href="/">Home</Breadcrumb.Item>
+        <Breadcrumb.Item href="/home">Home</Breadcrumb.Item>
         <Breadcrumb.Item active>Transfert</Breadcrumb.Item>
         <Breadcrumb.Item href='/profile'>Profile</Breadcrumb.Item>
         <Breadcrumb.Item href="/contact">Contact</Breadcrumb.Item>
@@ -136,11 +149,7 @@ function Transfert() {
         <Row className="my-3">
           <Col xs={4}>
             <FloatingLabel controlId="floatingSelect" label="Choisis un ami">
-              <Form.Select
-                value={idCredit}
-                className={styleSelect}
-                onChange={handleChange}
-              >
+              <Form.Select value={idCredit} className={styleSelect} onChange={handleChange} >
                 <option value={0}>Open this select menu</option>
                 {connect.map((con) => (
                   <option key={con.idDeux.id} value={con.idDeux.id}>
@@ -152,11 +161,11 @@ function Transfert() {
           </Col>
           <Col xs={4}>
             <InputGroup>
-              <Form.Control type="number" className={styleNumber} min={0} max={100} step={1} value={solde} onChange={handleChangeCount} required size="lg"></Form.Control>
+              <InputNumber value={solde} min={0} max={100} step={1} onValueChange={handleChangeCount} showButtons mode="currency" currency="EUR"/>
             </InputGroup>
           </Col>
           <Col xs={4}>
-            <Button variant="outline-success" onClick={handleShow}>
+            <Button variant="outline-success" onClick={handleShow} className='buttonPay'>
               Pay
             </Button>{" "}
           </Col>
@@ -169,7 +178,8 @@ function Transfert() {
           <Modal show={show3} onHide={handleClose} backdrop="static" keyboard={false}>
             <Modal.Header>
               <Modal.Title>
-                Validation du Transfert de votre compte au compte de {name} d'un montant de {solde} €
+                Validation du Transfert de votre compte au compte de {name} d'un montant de {solde} €. <br/>
+              <span className="spanTitle">Des frais de 0,5% sont appliqués à la transaction.</span> 
               </Modal.Title>
             </Modal.Header>
             <Modal.Body>
