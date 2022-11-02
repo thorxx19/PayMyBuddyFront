@@ -35,6 +35,8 @@ function Transfert() {
   const [styleNumber, setStyleNumber] = useState("");
   const [styleSelect, setStyleSelect] = useState("");
   const navigate = useNavigate();
+  const [validated, setValidated] = useState(false);
+
 
   const handleChange = (event) => {
     console.log(event.target.value);
@@ -86,7 +88,7 @@ function Transfert() {
     if (idCredit > 0) {
       setStyleSelect("styleNumberGood");
     } else {
-      setStyleSelect("styleNumberNoGood");
+      setStyleSelect("p-invalid");
     }
     if (idCredit > 0 && solde > 0) {
       connectService.getClientById(idCredit).then(respons => {
@@ -145,7 +147,7 @@ function Transfert() {
           <SideBars />
         </Col>
       </Row>
-      <Form noValidate onSubmit={handleSubmit}>
+      <Form noValidate validated={validated} onSubmit={handleSubmit}>
         <Row className="my-3">
           <Col xs={4}>
             <FloatingLabel controlId="floatingSelect" label="Choisis un ami">
@@ -161,7 +163,7 @@ function Transfert() {
           </Col>
           <Col xs={4}>
             <InputGroup>
-              <InputNumber value={solde} min={0} max={100} step={1} onValueChange={handleChangeCount} showButtons mode="currency" currency="EUR"/>
+              <InputNumber value={solde} min={0} max={100} className={styleNumber} step={1} onValueChange={handleChangeCount} showButtons mode="currency" currency="EUR"/>
             </InputGroup>
           </Col>
           <Col xs={4}>
