@@ -5,6 +5,7 @@ import { accountService } from "../service/account.service";
 import { connectService } from "../service/Connection";
 import ToasterGood from "../components/ToasterGood";
 import ToasterBad from "../components/ToasterBad";
+import logo from "../assets/logo_Pay.png";
 import InputGroup from 'react-bootstrap/InputGroup';
 
 
@@ -108,32 +109,33 @@ import InputGroup from 'react-bootstrap/InputGroup';
             {isRegister ? 
             <Col xs="10" lg="4" className="m-auto my-5">
             <Form onSubmit={onSubmit} className="home">
+            <Col className="my-5 text-center">
+                <img src={logo} width={220} className="rounded logoLogin" alt="logo payMyBuddy"/>
+            </Col>
             <Col xs="10" lg="9" className="m-auto">
-                
-                    <Form.Label>Email address</Form.Label>
+                <FloatingLabel controlId="floatingMail" label="Email address" className="mb-3">
                     <Form.Control type="email" name="mail" placeholder="Enter email"  value={credentials.mail} onChange={onChange}/>
                     <Form.Text className="text-muted">
                     We'll never share your email with anyone else.
                     </Form.Text>
-                
+                </FloatingLabel>
             </Col>
             <Col xs="10" lg="9" className="m-auto">
-                
-                    <Form.Label>Password</Form.Label>
+                <FloatingLabel controlId="floatingPassword" label="Password" className="mb-3" >
                     <Form.Control type="password" name="password" placeholder="Password" value={credentials.password} onChange={onChange}/>
-                
+                </FloatingLabel>
                 <Form.Group className="mb-3" controlId="formBasicCheckbox">
                     <Form.Check type="checkbox" label="Check me out" />
                 </Form.Group>
             </Col>
             <Col xs lg="9" className="m-auto text-center my-5">
-                <Button variant="primary" type="submit" className="buttonLogin">
+                <Button variant="outline-success" type="submit" className="buttonLogin">
                     Submit
                 </Button>
             </Col>
             <Col className="text-end mx-3">
-                <Button variant="primary" onClick={changeFalse}>
-                    registre
+                <Button variant="outline-primary" onClick={changeFalse}>
+                    Registre
                 </Button>
             </Col>
             </Form>
@@ -141,6 +143,9 @@ import InputGroup from 'react-bootstrap/InputGroup';
             :
             <Col xs="10" lg="4" className="m-auto my-5">
             <Form noValidate validated={validated} onSubmit={onSubmitRegister} className="home">
+            <Col className="my-5 text-center">
+                <img src={logo} width={220} className="rounded logoLogin" alt="logo payMyBuddy"/>
+            </Col>
                 <Col xs="10" lg="9" className="m-auto">
                     <Form.Group controlId="validationCustom01">
                         <FloatingLabel controlId="floatingName" label="Name" className="mb-3">
@@ -177,12 +182,11 @@ import InputGroup from 'react-bootstrap/InputGroup';
                         </FloatingLabel>
                     </Form.Group>
                 </Col>
-            
                 <Col xs lg="9" className="m-auto text-center my-5">
-                    <Button variant="primary" type="submit" className="buttonLogin">Submit</Button>
+                    <Button variant="outline-success" type="submit" className="buttonLogin">Submit</Button>
                 </Col>
                 <Col className="text-start mx-3">
-                    <Button variant="primary" onClick={changeTrue}>retour</Button>
+                    <Button variant="outline-primary" onClick={changeTrue}>Login</Button>
                 </Col>
                 {/* TOASTER */}
                     <ToasterGood toasterGood={show1} />

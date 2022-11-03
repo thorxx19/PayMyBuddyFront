@@ -30,7 +30,7 @@
 .home {
   border: solid black 1px;
   border-radius: 10px;
-  padding: 80px 0px 30px 0px;
+  padding: 5px 0px 10px 0px;
   box-shadow: 4px 5px 10px black;
 }
 .buttonLogin {
@@ -60,6 +60,9 @@
 font-size: 13px;
 font-style: italic;
 color: red;
+}
+.logoLogin{
+  box-shadow: 2px 2px 6px black;
 }
 
 
