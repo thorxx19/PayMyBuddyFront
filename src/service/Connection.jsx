@@ -1,27 +1,16 @@
-import { accountService } from './account.service'
 import Axios from './caller'
 
 let getAlltransfert = () => {
-    let number = accountService.getId()
-    return Axios.get('/transferts',{
-        params: {id: number}   
-    })
+    return Axios.get('/transferts')
 }
-let getClientById = () => {
-    let number = accountService.getId()
-    return Axios.get('/client',{
-        params: {id: number}
-    })
+let getClient = () => {
+    return Axios.get('/client')
 }
 let getConnectById = () => {
-    let number = accountService.getId()
-    return Axios.get('/connect',{
-        params: {id: number}
-    })
+    return Axios.get('/connect')
 }
-let postTransfert = (idDebtor, idCredit, balance , descriptif) => {
+let postTransfert = (idCredit, balance , descriptif) => {
     return Axios.post('/transfert',{
-        idDebtor,
         idCredit,
         balance,
         descriptif
@@ -31,10 +20,7 @@ let getAllClients = () => {
     return Axios.get('/clients')
 }
 let getFirstTrans = () => {
-    let number = accountService.getId()
-    return Axios.get('/transfert',{
-        params: {id: number}
-    })
+    return Axios.get('/transfert')
 }
 let login = (credentials) => {
     return Axios.post('/auth/login', credentials)
@@ -43,27 +29,28 @@ let register = (credentials) => {
     return Axios.post('/auth/register', credentials)
 }
 let getAllConnect = () => {
-    let number = accountService.getId()
-    return Axios.get('/mail',{
-        params:{id: number}
-    })
+    return Axios.get('/mail')
 }
-let postConnect = (idUn,idDeux) => {
+let postConnect = (idDeux) => {
     return Axios.post('/connect',{
-        idUn,
         idDeux  
     })
 }
 let modifCompte = (balance) => {
-    let id = accountService.getId()
     return Axios.put('/solde',{
-        balance,
-        id
+        balance
+    })
+}
+let getClientById = (id) => {
+    return Axios.get('/clientId',{
+        params:{
+            id
+        }
     })
 }
 
 
 export const connectService = {
-    getAlltransfert, getClientById, getConnectById, postTransfert, getAllClients,
-     getFirstTrans, login , register, getAllConnect, postConnect, modifCompte
+    getAlltransfert, getClient, getConnectById, postTransfert, getAllClients,
+     getFirstTrans, login , register, getAllConnect, postConnect, modifCompte,getClientById
 }

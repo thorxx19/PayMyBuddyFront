@@ -1,6 +1,6 @@
 import React from 'react';
-import Toast from "react-bootstrap/Toast";
-import ToastContainer from "react-bootstrap/ToastContainer";
+import {Toast, ToastContainer} from "react-bootstrap";
+
 import logo from "../assets/logo_Pay.png";
 
 const Toaster = (props) => {

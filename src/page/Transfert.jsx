@@ -1,31 +1,25 @@
 import React, { useState, useEffect } from "react";
+import {Container, Row, Col, Form, InputGroup, Button, Breadcrumb, Modal, FloatingLabel} from "react-bootstrap";
+import { InputNumber } from "primereact/inputnumber"
+import { useNavigate } from "react-router-dom";
+
+
 import { connectService } from "../service/Connection";
-import Container from "react-bootstrap/Container";
-import Row from "react-bootstrap/Row";
-import Col from "react-bootstrap/Col";
-import Form from "react-bootstrap/Form";
-import InputGroup from "react-bootstrap/InputGroup";
-import Button from "react-bootstrap/Button";
 import Pagination from "../components/Pagination";
-import Breadcrumb from "react-bootstrap/Breadcrumb";
-import Modal from "react-bootstrap/Modal";
-import FloatingLabel from "react-bootstrap/FloatingLabel";
-import "../style/index.css";
 import SideBars from "../components/SideBars";
 import Navigation from "../components/Navigation";
 import ToasterGood from "../components/ToasterGood";
 import ToasterBad from "../components/ToasterBad";
-import { useNavigate } from "react-router-dom";
 import { accountService } from "../service/account.service";
-import { InputNumber } from "primereact/inputnumber"
 
+
+import "../style/index.css";
 
 
 
 function Transfert() {
   const [connect, setConnect] = useState([]);
   const [idCredit, setIdCredit] = useState(0);
-  const [idDebtor, setIdDebtor] = useState(0);
   const [solde, setSolde] = useState(0);
   const [name, setName] = useState("");
   const [descript, setDescript] = useState("");
@@ -35,11 +29,9 @@ function Transfert() {
   const [styleNumber, setStyleNumber] = useState("");
   const [styleSelect, setStyleSelect] = useState("");
   const navigate = useNavigate();
-  const [validated, setValidated] = useState(false);
 
 
   const handleChange = (event) => {
-    console.log(event.target.value);
     setIdCredit(event.target.value);
   };
 
@@ -80,6 +72,7 @@ function Transfert() {
   };
 
   const handleShow = (event) => {
+    console.log(solde)
     if (solde > 0) {
       setStyleNumber("styleNumberGood");
     } else {
@@ -88,12 +81,12 @@ function Transfert() {
     if (idCredit > 0) {
       setStyleSelect("styleNumberGood");
     } else {
-      setStyleSelect("p-invalid");
+      setStyleSelect("styleNumberNoGood");
     }
     if (idCredit > 0 && solde > 0) {
       connectService.getClientById(idCredit).then(respons => {
         if (respons.request.status === 200) {
-          setName(respons.data[0].name)
+          setName(respons.data.data.name)
         }
       }).catch(error => console.log(error));
       setShow3(true);
@@ -103,7 +96,7 @@ function Transfert() {
 
   const handleSubmit = (event) => {
     if (idCredit > 0 && solde > 0) {
-      connectService.postTransfert(idDebtor, idCredit, solde, descript).then(
+      connectService.postTransfert(idCredit, solde, descript).then(
           respons => {
             console.log(respons)
             if (respons.request.status === 200) {
@@ -118,9 +111,10 @@ function Transfert() {
   };
 
   useEffect(() => {
-    connectService.getConnectById().then(responsConnect => {
-      responsConnect.data.length === 0 ? setConnect([]) : setConnect(responsConnect.data);
-      responsConnect.data.length === 0 ? setIdDebtor(0) : setIdDebtor(responsConnect.data[0].idUn.id);
+    connectService.getConnectById().then(respons => {
+      if (respons.request.status === 200) {
+        setConnect(respons.data.datas)
+      }
     }).catch(error => {
       if (error.response.status === 401) {
         accountService.logout();
@@ -147,7 +141,7 @@ function Transfert() {
           <SideBars />
         </Col>
       </Row>
-      <Form noValidate validated={validated} onSubmit={handleSubmit}>
+      <Form noValidate  onSubmit={handleSubmit}>
         <Row className="my-3">
           <Col xs={4}>
             <FloatingLabel controlId="floatingSelect" label="Choisis un ami">
@@ -163,13 +157,13 @@ function Transfert() {
           </Col>
           <Col xs={4}>
             <InputGroup>
-              <InputNumber value={solde} min={0} max={100} className={styleNumber} step={1} onValueChange={handleChangeCount} showButtons mode="currency" currency="EUR"/>
+            <Form.Control type="number" className={styleNumber} min={0} max={100} step={1} value={solde} onChange={handleChangeCount} required size="lg"></Form.Control>
             </InputGroup>
           </Col>
           <Col xs={4}>
             <Button variant="outline-success" onClick={handleShow} className='buttonPay'>
               Pay
-            </Button>{" "}
+            </Button>
           </Col>
           {/* TOASTER */}
           <ToasterGood toasterGood={show1} />

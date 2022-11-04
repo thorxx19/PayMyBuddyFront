@@ -1,13 +1,17 @@
 import React, { useState, useEffect } from 'react';
-import Button from 'react-bootstrap/Button';
-import Offcanvas from 'react-bootstrap/Offcanvas';
+import {Button, Offcanvas} from 'react-bootstrap';
+import { AutoComplete } from 'primereact/autocomplete';
+import { useNavigate } from 'react-router-dom';
+
+
 import { connectService } from "../service/Connection";
 import { accountService } from '../service/account.service';
-import { useNavigate } from 'react-router-dom';
-import { AutoComplete } from 'primereact/autocomplete';
-import "../style/App.css"
 import ToasterGood from "../components/ToasterGood";
 import ToasterBad from "../components/ToasterBad";
+
+
+import "../style/App.css"
+
 
 function OffCanvasExample({ name, ...props }) {
     const [show, setShow] = useState(false);

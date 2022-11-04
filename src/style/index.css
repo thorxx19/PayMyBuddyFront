@@ -20,8 +20,9 @@ th{
   padding: 12 !important;
 }
 .styleNumberGood{
-  border: 1px solid green !important;
+  border: 1px solid lightgreen !important;
 }
 .styleNumberNoGood{
-  border: 1px solid red !important;
+  border: 1px solid tomato !important;
+
 }

@@ -1,14 +1,15 @@
 import React, { useEffect, useState } from 'react';
-import { Col, Container, FloatingLabel, Form, Breadcrumb } from "react-bootstrap";
+import { Col, Container, FloatingLabel, Form, Breadcrumb, InputGroup, Button } from "react-bootstrap";
+import { InputNumber } from "primereact/inputnumber"
 import { useNavigate } from 'react-router-dom';
+
+
 import Navigation from '../components/Navigation';
 import { accountService } from '../service/account.service';
 import { connectService } from "../service/Connection";
-import InputGroup from "react-bootstrap/InputGroup";
-import Button from "react-bootstrap/Button";
 import ToasterGood from "../components/ToasterGood";
 import ToasterBad from "../components/ToasterBad";
-import { InputNumber } from "primereact/inputnumber"
+
 
 
 const Profile = () => {
@@ -59,7 +60,7 @@ const AddCompte = () => {
 }
 
     useEffect(() => {
-        connectService.getClientById().then(respons => {
+        connectService.getClient().then(respons => {
           respons.data.length === 0 ? setDatas([]) : setDatas(respons.data[0])
           respons.data.length === 0 ? setCompte([]) : setCompte(respons.data[0].accountId)
         }).catch(error => {

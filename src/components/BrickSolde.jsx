@@ -1,8 +1,11 @@
-import React, { useEffect,useState } from 'react';
-import { connectService } from '../service/Connection';
+import React, { useEffect,useState} from 'react';
 import { Card } from 'react-bootstrap';
-import { accountService } from '../service/account.service';
 import { useNavigate } from 'react-router-dom';
+
+
+import { connectService } from '../service/Connection';
+import { accountService } from '../service/account.service';
+
 
 function Brick() {
     const [datas, setDatas] = useState([])
@@ -10,7 +13,7 @@ function Brick() {
     
 
     useEffect(() => {
-        connectService.getClientById().then((dataTransfert) => {
+        connectService.getClient().then((dataTransfert) => {
             dataTransfert.data.length === 0 ? setDatas([]) : setDatas(dataTransfert.data)
     }).catch(error => {
         if (error.response.status === 401) {

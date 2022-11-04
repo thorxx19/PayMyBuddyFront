@@ -1,12 +1,12 @@
 import React, {useEffect, useState} from "react";
-import { Container } from "react-bootstrap";
+import { Container, Row, Breadcrumb } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
+
+
 import Navigation from "../components/Navigation";
-import Row from "react-bootstrap/Row";
-import Breadcrumb from "react-bootstrap/Breadcrumb";
 import BrickLastTransfert from "../components/BrickLastTransaction";
 import BrickSolde from "../components/BrickSolde";
 import { connectService } from '../service/Connection';
-import { useNavigate } from "react-router-dom";
 import { accountService } from "../service/account.service";
 
 
@@ -25,7 +25,7 @@ const Home = () => {
           navigate('/auth/login')
         }
       });
-        connectService.getClientById().then(dataTransfert => {
+        connectService.getClient().then(dataTransfert => {
             dataTransfert.data.length === 0 ? setData(false) : setData(true)
     }).catch(error => {
         if (error.response.status === 401) {

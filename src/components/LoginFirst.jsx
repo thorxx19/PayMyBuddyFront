@@ -1,12 +1,13 @@
-import React, { useState } from "react";
-import { Col, Button, Form,FloatingLabel,Row } from "react-bootstrap";
+import React, { useState} from "react";
+import { Col, Button, Form, FloatingLabel } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
+
+
 import { accountService } from "../service/account.service";
 import { connectService } from "../service/Connection";
 import ToasterGood from "../components/ToasterGood";
 import ToasterBad from "../components/ToasterBad";
 import logo from "../assets/logo_Pay.png";
-import InputGroup from 'react-bootstrap/InputGroup';
 
 
 
@@ -16,6 +17,8 @@ import InputGroup from 'react-bootstrap/InputGroup';
         const [show1, setShow1] = useState(false);
         const [show2, setShow2] = useState(false);
         const [validated, setValidated] = useState(false);
+
+        const validPassword = new RegExp('^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$');
 
         const [credentials, setCredentials] = useState({
             mail: 'test@test.fr',
@@ -42,7 +45,7 @@ import InputGroup from 'react-bootstrap/InputGroup';
               setShow2(false);
             }, 3000);
           };
-          const handleValid = () => {
+        const handleValid = () => {
             setTimeout(() => {
               setShow1(true);
             }, 500);
@@ -59,13 +62,14 @@ import InputGroup from 'react-bootstrap/InputGroup';
             })
         } 
         const onChangeRegister = (e) => {
+            console.log(validPassword.test(credentialsRegister.password))
             setCredentialsRegister({
                 ...credentialsRegister,
                 [e.target.name] : e.target.value
             })
         } 
 
-    const onSubmit = (e) => {
+        const onSubmit = (e) => {
             e.preventDefault()
             console.log(credentials)
             connectService.login(credentials)
@@ -75,8 +79,10 @@ import InputGroup from 'react-bootstrap/InputGroup';
             })
             .catch(error => console.log(error))}
 
-    const onSubmitRegister = (e) => {
-        const form = e.currentTarget;
+        const onSubmitRegister = (e) => {
+            const form = e.currentTarget;
+            
+            console.log(form)
 
         if (form.checkValidity() === false) {
             e.preventDefault();
