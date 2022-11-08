@@ -55,6 +55,9 @@ import "../style/App.css"
                 if (!data.password) {
                     errors.password = 'Password is required.';
                 }
+                else if (!/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/i.test(data.password)) {
+                    errors.password = 'Invalid Password. E.g. Example1234#';
+                }
     
                 if (!data.accept) {
                     errors.accept = 'You need to agree to the terms and conditions.';
