@@ -6,7 +6,6 @@ import { useNavigate } from 'react-router-dom';
 
 import { connectService } from "../service/Connection";
 import { accountService } from '../service/account.service';
-import ToasterGood from "../components/ToasterGood";
 import ToasterBad from "../components/ToasterBad";
 
 
@@ -17,9 +16,8 @@ function OffCanvasExample({ name, ...props }) {
     const [show, setShow] = useState(false);
     const [datas, setDatas] = useState([]);
     const navigate = useNavigate;
-    const [selectedCountry2, setSelectedCountry2] = useState(null);
-    const [filteredCountries, setFilteredCountries] = useState(null);
-    const [show1, setShow1] = useState(false);
+    const [selectedMail, setSelectedMail] = useState(null);
+    const [filteredMail, setFilteredmail] = useState(null);
     const [show2, setShow2] = useState(false);
 
     const handleClose = () => setShow(false);
@@ -35,25 +33,16 @@ function OffCanvasExample({ name, ...props }) {
         navigate("/auth/login")
       }, 3000);
     };
-    const handleValid = () => {
-      setTimeout(() => {
-        setShow1(true);
-      }, 500);
-      setTimeout(() => {
-        setShow1(false);
-        handleClose()
-        setSelectedCountry2(null)
-      }, 3000);
-    };
+    
    
     const handChange = (()=>{
-    console.log(selectedCountry2.id)
-    connectService.postConnect(accountService.getId(), selectedCountry2.id).then(respons => {
+    console.log(selectedMail.id)
+    connectService.postConnect(selectedMail.id).then(respons => {
       console.log(respons)
       if (respons.request.status === 202) {
-        setDatas((current) => current.filter(user => user.id !== selectedCountry2.id))
+        setDatas((current) => current.filter(user => user.id !== selectedMail.id))
         handleClose()
-        setSelectedCountry2(null)
+        setSelectedMail(null)
         window.location.reload(false);
       }
     }).catch(error => {
@@ -85,16 +74,16 @@ function OffCanvasExample({ name, ...props }) {
 
   const searchCountry = (event) => {
     setTimeout(() => {
-        let _filteredCountries;
+        let _filteredMail;
         if (!event.query.trim().length) {
-            _filteredCountries = [...datas];
+            _filteredMail = [...datas];
         }
         else {
-            _filteredCountries = datas.filter((data) => {
+            _filteredMail = datas.filter((data) => {
                 return data.mail.toLowerCase().startsWith(event.query.toLowerCase());
             });
         }
-        setFilteredCountries(_filteredCountries);
+        setFilteredmail(_filteredMail);
     }, 250);
 }
 
@@ -110,7 +99,7 @@ function OffCanvasExample({ name, ...props }) {
         <Offcanvas.Body>
           
             <div className="card" style={{ position: 'relative', zIndex: '2' }}>
-                <AutoComplete value={selectedCountry2} suggestions={filteredCountries} completeMethod={searchCountry} field="mail" dropdown forceSelection itemTemplate={itemTemplate} onChange={(e) => setSelectedCountry2(e.value)} aria-label="Mail" dropdownAriaLabel="Select Mail" />
+                <AutoComplete value={selectedMail} suggestions={filteredMail} completeMethod={searchCountry} field="mail" dropdown forceSelection itemTemplate={itemTemplate} onChange={(e) => setSelectedMail(e.value)} aria-label="Mail" dropdownAriaLabel="Select Mail" />
             </div>
 
             <div className="d-grid gap-2 my-5">
@@ -120,7 +109,6 @@ function OffCanvasExample({ name, ...props }) {
             </div>
         </Offcanvas.Body>
         {/* TOASTER */}
-                <ToasterGood toasterGood={show1} />
                 <ToasterBad toasterBad={show2} />
       </Offcanvas>
     </>

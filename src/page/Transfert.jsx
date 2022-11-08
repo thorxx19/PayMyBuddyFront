@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import {Container, Row, Col, Form, InputGroup, Button, Breadcrumb, Modal, FloatingLabel} from "react-bootstrap";
-import { InputNumber } from "primereact/inputnumber"
 import { useNavigate } from "react-router-dom";
 
 
@@ -19,7 +18,7 @@ import "../style/index.css";
 
 function Transfert() {
   const [connect, setConnect] = useState([]);
-  const [idCredit, setIdCredit] = useState(0);
+  const [idCredit, setIdCredit] = useState("00000000-0000-0000-0000-000000000000");
   const [solde, setSolde] = useState(0);
   const [name, setName] = useState("");
   const [descript, setDescript] = useState("");
@@ -72,18 +71,18 @@ function Transfert() {
   };
 
   const handleShow = (event) => {
-    console.log(solde)
+    console.log(idCredit)
     if (solde > 0) {
       setStyleNumber("styleNumberGood");
     } else {
       setStyleNumber("styleNumberNoGood");
     }
-    if (idCredit > 0) {
+    if (idCredit !== "00000000-0000-0000-0000-000000000000") {
       setStyleSelect("styleNumberGood");
     } else {
       setStyleSelect("styleNumberNoGood");
     }
-    if (idCredit > 0 && solde > 0) {
+    if (idCredit !== "00000000-0000-0000-0000-000000000000" && solde > 0) {
       connectService.getClientById(idCredit).then(respons => {
         if (respons.request.status === 200) {
           setName(respons.data.data.name)
@@ -95,7 +94,7 @@ function Transfert() {
   };
 
   const handleSubmit = (event) => {
-    if (idCredit > 0 && solde > 0) {
+    if (idCredit !== "00000000-0000-0000-0000-000000000000" && solde > 0) {
       connectService.postTransfert(idCredit, solde, descript).then(
           respons => {
             console.log(respons)
@@ -146,9 +145,9 @@ function Transfert() {
           <Col xs={4}>
             <FloatingLabel controlId="floatingSelect" label="Choisis un ami">
               <Form.Select value={idCredit} className={styleSelect} onChange={handleChange} >
-                <option value={0}>Open this select menu</option>
-                {connect.map((con) => (
-                  <option key={con.idDeux.id} value={con.idDeux.id}>
+                <option value={"00000000-0000-0000-0000-000000000000"}>Open this select menu</option>
+                {connect.map((con,index) => (
+                  <option key={index} value={con.idDeux.id}>
                     {con.idDeux.name}
                   </option>
                 ))}

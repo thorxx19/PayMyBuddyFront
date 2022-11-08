@@ -31,7 +31,7 @@ import "../style/App.css"
             initialValues: {
                 name: '',
                 lastName:'',
-                email: '',
+                mail: '',
                 password: '',
                 accept: false
             },
@@ -45,11 +45,11 @@ import "../style/App.css"
                     errors.lastName = 'Last name is required.'
                 }
     
-                if (!data.email) {
-                    errors.email = 'Email is required.';
+                if (!data.mail) {
+                    errors.mail = 'Email is required.';
                 }
-                else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(data.email)) {
-                    errors.email = 'Invalid email address. E.g. example@email.com';
+                else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(data.mail)) {
+                    errors.mail = 'Invalid email address. E.g. example@email.com';
                 }
     
                 if (!data.password) {
@@ -140,7 +140,10 @@ import "../style/App.css"
                     accountService.saveToken(res.data)
                     navigate('/home')
             })
-            .catch(error => console.log(error))}
+            .catch(error => {
+                console.log(error)
+                handleCloseEchec()
+            })}
 
     return (
         <>
@@ -176,6 +179,9 @@ import "../style/App.css"
                     Registre
                 </Button>
             </Col>
+            {/* TOASTER */}
+                <ToasterBad toasterBad={show2} />
+            {/* MODAL */}
             </Form>
             </Col>
             :
@@ -185,7 +191,7 @@ import "../style/App.css"
                     <i className="pi pi-check-circle" style={{ fontSize: '5rem', color: 'var(--green-500)' }}></i>
                     <h5>Registration Successful!</h5>
                     <p style={{ lineHeight: 1.5, textIndent: '1rem' }}>
-                        Your account is registered under name <b>{formData.name}</b> ; it'll be valid next 30 days without activation. Please check <b>{formData.email}</b> for activation instructions.
+                        Your account is registered under name <b>{formData.name}</b> ; it'll be valid next 30 days without activation. Please check <b>{formData.mail}</b> for activation instructions.
                     </p>
                 </div>
             </Dialog>
@@ -215,10 +221,10 @@ import "../style/App.css"
                         <Col xs="10" lg="9" className="m-auto">
                             <span className="p-float-label p-input-icon-right">
                                 <i className="pi pi-envelope" />
-                                <InputText id="email" name="email" value={formik.values.email} onChange={formik.handleChange} className={classNames({ 'p-invalid': isFormFieldValid('email') })} />
-                                <label htmlFor="email" className={classNames({ 'p-error': isFormFieldValid('email') })}>Email*</label>
+                                <InputText id="mail" name="mail" value={formik.values.mail} onChange={formik.handleChange} className={classNames({ 'p-invalid': isFormFieldValid('mail') })} />
+                                <label htmlFor="mail" className={classNames({ 'p-error': isFormFieldValid('mail') })}>Email*</label>
                             </span>
-                            {getFormErrorMessage('email')}
+                            {getFormErrorMessage('mail')}
                         </Col>
                         <Col xs="10" lg="9" className="m-auto my-4">
                             <span className="p-float-label">
