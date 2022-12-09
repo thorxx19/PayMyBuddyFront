@@ -85,14 +85,14 @@ const AddCompte = () => {
                 <h1 className='text-center'>Informations de compte</h1>
             <Form>
                 
-                    <Col md={2}>
+                    <Col md={4}>
                         <Form.Group className="mb-3" controlId="formBasicEmail">
                         <FloatingLabel controlId="floatingCompteClient" label="N° de Compte Client">
                             <Form.Control type="text" value={datas.id} placeholder="N° de Compte Client" disabled />
                         </FloatingLabel>
                         </Form.Group>
                     </Col>
-                    <Col md={2}>
+                    <Col md={4}>
                         <Form.Group className="mb-3" controlId="formBasicEmail">
                         <FloatingLabel controlId="floatingCompteBancaire" label="N° de Compte Bancaire">
                             <Form.Control type="email" value={compte.id} placeholder="N° de Compte Bancaire" disabled />
@@ -124,6 +124,13 @@ const AddCompte = () => {
                         <Form.Group className="mb-3" controlId="formBasicPassword">
                         <FloatingLabel controlId="floatingPassword" label="Password">
                             <Form.Control type="password" value={datas.password} placeholder="Password" disabled />
+                        </FloatingLabel>
+                        </Form.Group>
+                    </Col>
+                    <Col md={4}>
+                        <Form.Group className="mb-3" controlId="formBasic">
+                        <FloatingLabel controlId="floatingIban" label="Iban">
+                            <Form.Control type="iban" value={compte.iban} placeholder="Iban" disabled />
                         </FloatingLabel>
                         </Form.Group>
                     </Col>

@@ -118,7 +118,7 @@ import "../style/App.css"
 
         const [credentials, setCredentials] = useState({
             mail: 'test@test.fr',
-            password: 'admin@O.test'
+            password: 'Eagusto8060#'
         })
         
         const changeTrue = () => {
